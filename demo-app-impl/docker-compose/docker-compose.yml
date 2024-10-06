@@ -1,0 +1,28 @@
+services:
+  postgres:
+    image: postgres:16-alpine3.18
+    container_name: demo-app-postgres
+    restart: on-failure
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: objects
+    ports:
+      - "${POSTGRES_HOST_PORT}:5432"
+    healthcheck:
+      test: pg_isready -d objects
+      interval: 10s
+      timeout: 5s
+      start_period: 5s
+      retries: 3
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+    volumes:
+      - type: volume
+        source: db_data
+        target: /var/lib/postgresql/data
+
+volumes:
+  db_data:

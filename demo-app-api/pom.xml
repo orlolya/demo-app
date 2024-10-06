@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>ru.interview.demo</groupId>
+    <artifactId>demo-app</artifactId>
+    <version>${revision}</version>
+  </parent>
+
+  <artifactId>demo-app-api</artifactId>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springdoc</groupId>
+      <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.openapitools</groupId>
+      <artifactId>jackson-databind-nullable</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <scope>provided</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.openapitools</groupId>
+        <artifactId>openapi-generator-maven-plugin</artifactId>
+        <version>${openapi-generator-maven-plugin.version}</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>generate</goal>
+            </goals>
+            <configuration>
+              <!-- https://openapi-generator.tech/docs/generators/spring/ -->
+              <inputSpec>${project.basedir}/src/main/resources/OpenAPI-definition.yml</inputSpec>
+              <generatorName>spring</generatorName>
+              <apiPackage>ru.interview.demo.api</apiPackage>
+              <modelPackage>ru.interview.demo.dto</modelPackage>
+              <generateSupportingFiles>false</generateSupportingFiles>
+              <configOptions>
+                <annotationLibrary>swagger2</annotationLibrary>
+                <documentationProvider>source</documentationProvider>
+                <interfaceOnly>true</interfaceOnly>
+                <hideGenerationTimestamp>true</hideGenerationTimestamp>
+                <serializableModel>true</serializableModel>
+                <skipDefaultInterface>true</skipDefaultInterface>
+                <sourceFolder>src/main/java</sourceFolder>
+                <useJakartaEe>true</useJakartaEe>
+                <useTags>true</useTags>
+              </configOptions>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>

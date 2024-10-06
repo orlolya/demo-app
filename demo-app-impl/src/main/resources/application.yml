@@ -1,0 +1,69 @@
+server:
+  port: ${SERVER_PORT:8080}
+  servlet:
+    context-path: /
+
+spring:
+  application:
+    name: demo-app
+
+  datasource:
+    driverClassName: org.postgresql.Driver
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/objects}
+    username: ${DB_USER:postgres}
+    password: ${DB_PASSWORD:postgres}
+    hikari:
+      maximum-pool-size: ${HIKARI_MAXIMUM_POOL_SIZE:5}
+      minimum-idle: 1
+      idle-timeout: 300000
+      max-lifetime: 43200000
+
+  jpa:
+    generate-ddl: false
+    database: postgresql
+    hibernate:
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
+    open-in-view: false
+    properties:
+      hibernate.hbm2ddl.auto: validate
+    show-sql: ${SHOW_SQL:false}
+
+  jackson:
+    default-property-inclusion: non_null
+
+# Logging
+logging:
+  level:
+    ROOT: ${LOGGING_LEVEL_ROOT:INFO}
+    ru.interview.demo: ${LOGGING_LEVEL_APP:DEBUG}
+
+app:
+  external-service-url: http://localhost:8080/api/v1/
+# Actuator
+management:
+  endpoint:
+    health:
+      show-details: always
+
+  info:
+    env:
+      enabled: true
+
+  health:
+    kafka:
+      enabled: true
+
+  endpoints:
+    web:
+      exposure:
+        include:
+          - health
+          - info
+          - env
+          - mappings
+          - loggers
+          - configprops
+          - metrics
+          - threaddump
+          - refresh
